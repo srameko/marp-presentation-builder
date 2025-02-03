@@ -20,7 +20,7 @@ jobs:
           id: build-docker-image
           run: |
             ls -la 
-            docker build . -f Dockerfile
+            docker build . -f Dockerfile --tag latest
         - name: push the docker image
           id: push-docker-image
           run: docker push ${{secrets.DOCKER_USERNAME}}/marp-presentation-builder:latest
