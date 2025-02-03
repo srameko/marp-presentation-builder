@@ -23,4 +23,4 @@ jobs:
             docker build . -f Dockerfile
         - name: push the docker image
           id: push-docker-image
-          run: docker push ${{secrets.DOCKERHUB_USERNAME}}/marp-presentation-builder:latest
+          run: docker push ${{secrets.DOCKER_USERNAME}}/marp-presentation-builder:latest
