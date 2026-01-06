@@ -9,6 +9,9 @@ RUN apk upgrade --no-cache --available \
 
 COPY local.conf /etc/fonts/local.conf
 
+# TMP ACL for Marp
+RUN mkdir -p /tmp && chmod 1777 /tmp
+
 # Add Chrome as a user
 RUN mkdir -p /usr/src/app \
     && adduser -D chrome \
