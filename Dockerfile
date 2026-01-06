@@ -1,5 +1,7 @@
 FROM dhi.io/alpine-base:3.23-alpine3.23-dev
 
+USER root
+
 # Installs latest Chromium package.
 RUN apk upgrade --no-cache --available \
     && apk add --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community font-wqy-zenhei \
