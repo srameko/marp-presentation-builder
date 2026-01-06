@@ -1,27 +1,38 @@
 name: Build and Push Docker Image
+
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
-jobs:
-  login:
-    runs-on: ubuntu-latest
-    steps:
-        name: Docker Login
-        uses: docker/login-action@v3.6.0
-        with:
-            username: ${{secrets.DOCKER_USERNAME}}
-            password: ${{secrets.DOCKER_PASSWORD}}
-            registry: dhi.io
+    branches: [ "main" ]
 
-  build:
+jobs:
+  build-and-push:
     runs-on: ubuntu-latest
     steps:
-        name: build the docker image
-        id: build-docker-image
-        run: ls -la && docker build . -f Dockerfile -t srameko/marp-presentation-builder:latest
-        
-        name: push the docker image
-        id: push-docker-image
-        run: docker push ${{secrets.DOCKER_USERNAME}}/marp-presentation-builder:latest
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 1) Login na DHI (kvůli pull FROM dhi.io/...)
+      - name: Login to DHI registry (dhi.io)
+        uses: docker/login-action@v3
+        with:
+          registry: dhi.io
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # 2) Login na Docker Hub (kvůli push výsledného image)
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build image
+        run: |
+          docker build -f Dockerfile \
+            -t ${{ secrets.DOCKER_USERNAME }}/marp-presentation-builder:latest \
+            .
+
+      - name: Push image
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/marp-presentation-builder:latest
