@@ -1,4 +1,4 @@
-FROM dhi.io/alpine-base:3.22
+FROM dhi.io/alpine-base:3.23-alpine3.23-dev
 
 # Installs latest Chromium package.
 RUN apk upgrade --no-cache --available \
