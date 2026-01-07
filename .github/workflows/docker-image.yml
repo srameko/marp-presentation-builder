@@ -41,10 +41,12 @@ jobs:
 
       - name: Build image
         run: |
-          docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/marp-presentation-builder:latest -t ${{ secrets.DOCKER_USERNAME }}/marp-presentation-builder:alpine${{ steps.ver.outputs.alpine_ver }} 
-            .
+          docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/marp-presentation-builder:latest .
+
+      - name: Tag image
+        run: |
+          docker image tag ${{ secrets.DOCKER_USERNAME }}/marp-presentation-builder ${{ secrets.DOCKER_USERNAME }}/marp-presentation-builder:alpine${{ steps.ver.outputs.alpine_ver }}
 
       - name: Push image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/marp-presentation-builder:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/marp-presentation-builder:alpine${{ steps.ver.outputs.alpine_ver }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/marp-presentation-builder
