@@ -49,4 +49,4 @@ jobs:
 
       - name: Push image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/marp-presentation-builder
+          docker push -a ${{ secrets.DOCKER_USERNAME }}/marp-presentation-builder
