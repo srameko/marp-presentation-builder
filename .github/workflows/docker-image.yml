@@ -12,7 +12,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 1) Login na DHI (kvůli pull FROM dhi.io/...)
+      - name: Extract Alpine tag from Dockerfile
+        id: ver
+        shell: bash
+        run: |
+          set -euo pipefail
+          FROM_LINE="$(grep -m1 -E '^FROM ' Dockerfile)"
+          BASE_TAG="$(echo "$FROM_LINE" | sed -E 's/^FROM[[:space:]]+[^:]+:([^[:space:]]+).*/\1/')"
+          ALPINE_VER="$(echo "$BASE_TAG" | sed -nE 's/^([0-9]+\.[0-9]+).*/\1/p')"
+          echo "base_tag=$BASE_TAG" >> "$GITHUB_OUTPUT"
+          echo "alpine_ver=$ALPINE_VER" >> "$GITHUB_OUTPUT"
+          echo "Detected: base_tag=$BASE_TAG alpine_ver=$ALPINE_VER"
+
+      # 1) Login DHI
       - name: Login to DHI registry (dhi.io)
         uses: docker/login-action@v3
         with:
@@ -20,7 +32,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # 2) Login na Docker Hub (kvůli push výsledného image)
+      # 2) Login Docker Hub
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -31,8 +43,10 @@ jobs:
         run: |
           docker build -f Dockerfile \
             -t ${{ secrets.DOCKER_USERNAME }}/marp-presentation-builder:latest \
+            -t ${{ secrets.DOCKERHUB_USERNAME }}/marp-presentation-builder:alpine${{ steps.ver.outputs.alpine_ver }} 
             .
 
       - name: Push image
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/marp-presentation-builder:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/marp-presentation-builder:alpine${{ steps.ver.outputs.alpine_ver }}
