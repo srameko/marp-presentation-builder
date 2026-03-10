@@ -3,8 +3,8 @@ FROM dhi.io/alpine-base:3.23-alpine3.23-dev
 USER root
 
 # Installs latest Chromium package.
-RUN apk upgrade --no-cache --available \
-    && apk add --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community \
+RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
+    && apk upgrade --no-cache --available \
     && apk add --no-cache chromium nodejs npm tini font-liberation font-dejavu font-noto-emoji
 
 COPY local.conf /etc/fonts/local.conf
@@ -27,5 +27,5 @@ ENV CHROME_BIN=/usr/bin/chromium-browser \
 # Autorun chrome headless
 ENV CHROMIUM_FLAGS="--headless --disable-gpu --no-sandbox --disable-software-rasterizer --disable-dev-shm-usage"
 
-USER chrome
 ENTRYPOINT ["tini", "--"]
+CMD ["sh"]
