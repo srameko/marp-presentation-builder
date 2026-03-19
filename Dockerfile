@@ -3,8 +3,7 @@ FROM dhi.io/alpine-base:3.23-alpine3.23-dev
 USER root
 
 # Installs latest Chromium package.
-RUN printf '\nhttps://dl-cdn.alpinelinux.org/alpine/edge/community\n' >> /etc/apk/repositories \
-    && apk upgrade --no-cache --available \
+RUN apk upgrade --no-cache --available \
     && apk add --no-cache chromium nodejs-lts npm tini font-liberation font-dejavu font-noto-emoji
 
 COPY local.conf /etc/fonts/local.conf
