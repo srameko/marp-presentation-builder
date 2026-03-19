@@ -36,7 +36,13 @@ jobs:
         run: |
           mkdir -p /tmp/marp-test
           chmod 777 /tmp/marp-test
-          printf '---\nmarp: true\n---\n# Test slide\nHello World\n' > /tmp/marp-test/test.md
+          cat > /tmp/marp-test/test.md << 'MDEOF'
+          ---
+          marp: true
+          ---
+          # Test slide
+          Hello World
+          MDEOF
           docker run --rm \
             -v /tmp/marp-test:/work \
             -w /work \
