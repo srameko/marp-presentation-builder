@@ -1,4 +1,4 @@
-FROM dhi.io/alpine-base:3.23-alpine3.23-dev
+FROM dhi.io/alpine-base:3.22-alpine3.22-dev
 
 USER root
 
