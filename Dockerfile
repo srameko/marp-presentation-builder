@@ -5,7 +5,7 @@ USER root
 # Installs latest Chromium package.
 RUN printf '\nhttps://dl-cdn.alpinelinux.org/alpine/edge/community\n' >> /etc/apk/repositories \
     && apk upgrade --no-cache --available \
-    && apk add --no-cache chromium nodejs npm tini font-liberation font-dejavu font-noto-emoji
+    && apk add --no-cache chromium nodejs-lts npm tini font-liberation font-dejavu font-noto-emoji
 
 COPY local.conf /etc/fonts/local.conf
 
