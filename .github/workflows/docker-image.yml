@@ -105,7 +105,7 @@ jobs:
       security-events: write
     steps:
       - name: Run Trivy vulnerability scan
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
         with:
           image-ref: ${{ secrets.DOCKER_USERNAME }}/marp-presentation-builder:latest
           format: table
@@ -113,7 +113,7 @@ jobs:
           severity: CRITICAL,HIGH
 
       - name: Run Trivy vulnerability scan (SARIF)
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
         with:
           image-ref: ${{ secrets.DOCKER_USERNAME }}/marp-presentation-builder:latest
           format: sarif
