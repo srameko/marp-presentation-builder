@@ -9,6 +9,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+
       - name: Checkout
         uses: actions/checkout@v7
 
@@ -54,6 +59,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+
       - name: Checkout
         uses: actions/checkout@v7
 
@@ -104,6 +114,11 @@ jobs:
     permissions:
       security-events: write
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+
       - name: Run Trivy vulnerability scan
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
