@@ -36,6 +36,6 @@ Priority order (see `local.conf`):
 - Do not install unnecessary packages — keep the image minimal
 - Do not expose any ports in the Dockerfile
 - Use `tini` as the entrypoint init process to ensure proper signal handling and zombie reaping
-- Keep the base image (`dhi.io/alpine-base`) up to date — run `apk upgrade --no-cache --available` is already part of the build
+- Keep the base image (`dhi.io/alpine-base`) up to date; the Dockerfile already runs `apk upgrade --no-cache --available` at build time
 - Do not store secrets or credentials in the Dockerfile or any committed file — use GitHub secrets
 - Do not push to Docker Hub manually — always go through the CI/CD workflow
