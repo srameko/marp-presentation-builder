@@ -4,7 +4,7 @@ USER root
 
 # Installs latest Chromium package.
 RUN apk upgrade --no-cache --available \
-    && apk add --no-cache chromium nodejs-lts npm tini font-liberation font-dejavu font-noto-emoji
+    && apk add --no-cache chromium "nodejs-lts>=22.23.4" npm tini font-liberation font-dejavu font-noto-emoji
 
 COPY local.conf /etc/fonts/local.conf
 
